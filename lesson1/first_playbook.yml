@@ -1,0 +1,10 @@
+---
+
+- name: Network Getting Started First Playbook
+  gather_facts: false
+  hosts: all
+  tasks:
+    - name: This is a hello-world example
+      copy:
+        content: hello world
+        dest: /tmp/testfile.txt
