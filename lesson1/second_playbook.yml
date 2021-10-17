@@ -1,0 +1,19 @@
+---
+- name: Second Playbook of Lesson1
+  hosts: all
+  become: yes
+  tasks:
+    - name: httpd should be absent
+      yum:
+        name: httpd
+        state: absent
+    - name: File index.html should be absent
+      file:
+        path: /var/www/html/index.html
+        state: absent
+    - name: Allow httpd service via firewalld
+      firewalld:
+        service: http
+        permanent: yes
+        immediate: yes
+        state: disabled
