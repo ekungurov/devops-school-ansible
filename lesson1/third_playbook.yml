@@ -3,6 +3,22 @@
   hosts: all
   become: yes
   tasks:
+    - name: Check presence of 'net.ifnames' parameter
+      lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_CMDLINE_LINUX=.*net\.ifnames'
+        state: absent
+      check_mode: true
+      changed_when: false
+      register: grub_ifnames_check
+    - name: Check presence of 'biosdevname' parameter
+      lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_CMDLINE_LINUX=.*biosdevname'
+        state: absent
+      check_mode: true
+      changed_when: false
+      register: grub_biosdevname_check
     - name: Modify existing 'net.ifnames' parameter
       lineinfile:
         path: /etc/default/grub
@@ -10,6 +26,7 @@
         line: 'GRUB_CMDLINE_LINUX=\1net.ifnames=0\2'
         backrefs: yes
         validate: /bin/bash -n %s
+      when: grub_ifnames_check.found == 1
     - name: Modify existing 'biosdevname' parameter
       lineinfile:
         path: /etc/default/grub
@@ -17,3 +34,4 @@
         line: 'GRUB_CMDLINE_LINUX=\1biosdevname=0\2'
         backrefs: yes
         validate: /bin/bash -n %s
+      when: grub_biosdevname_check.found == 1
