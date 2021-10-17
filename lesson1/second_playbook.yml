@@ -7,10 +7,12 @@
       yum:
         name: httpd
         state: absent
+
     - name: File index.html should be absent
       file:
         path: /var/www/html/index.html
         state: absent
+
     - name: Disallow httpd service via firewalld
       firewalld:
         service: http
