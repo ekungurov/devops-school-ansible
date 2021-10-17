@@ -11,7 +11,7 @@
       file:
         path: /var/www/html/index.html
         state: absent
-    - name: Allow httpd service via firewalld
+    - name: Disallow httpd service via firewalld
       firewalld:
         service: http
         permanent: yes
