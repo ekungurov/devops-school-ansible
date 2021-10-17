@@ -1,10 +1,27 @@
 ---
 
-- name: Network Getting Started First Playbook
-  gather_facts: false
+- name: First Playbook of Lesson1
   hosts: all
+  become: yes
   tasks:
-    - name: This is a hello-world example
+    - name: Install httpd
+      yum:
+        name: httpd
+        state: latest
+    - name: Start httpd service
+      service:
+        name: httpd
+        state: started
+    - name: Create index.html file
       copy:
-        content: hello world
-        dest: /tmp/testfile.txt
+        content: <p>Welcome to my web server</p>
+        dest: /var/www/html/index.html
+    - name: Allow httpd service via firewalld
+      firewalld:
+        service: http
+        permanent: yes
+        state: enabled
+    - name: Start firewalld
+      service:
+        name: firewalld
+        state: started
