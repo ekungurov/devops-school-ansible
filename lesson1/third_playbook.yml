@@ -1,0 +1,19 @@
+---
+- name: Third Playbook of Lesson1
+  hosts: all
+  become: yes
+  tasks:
+    - name: Modify existing 'net.ifnames' parameter
+      lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_CMDLINE_LINUX=(.*)net\.ifnames=\d+(.*)$'
+        line: 'GRUB_CMDLINE_LINUX=\1net.ifnames=0\2'
+        backrefs: yes
+        validate: /bin/bash -n %s
+    - name: Modify existing 'biosdevname' parameter
+      lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_CMDLINE_LINUX=(.*)biosdevname=\d+(.*)$'
+        line: 'GRUB_CMDLINE_LINUX=\1biosdevname=0\2'
+        backrefs: yes
+        validate: /bin/bash -n %s
