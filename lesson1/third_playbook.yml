@@ -19,6 +19,22 @@
       check_mode: true
       changed_when: false
       register: grub_biosdevname_check
+    - name: Add 'net.ifnames' parameter
+      lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_CMDLINE_LINUX=\"(.*)\"$'
+        line: 'GRUB_CMDLINE_LINUX="\1 net.ifnames=0"'
+        backrefs: yes
+        validate: /bin/bash -n %s
+      when: grub_ifnames_check.found == 0
+    - name: Add 'biosdevname' parameter
+      lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_CMDLINE_LINUX=\"(.*)\"$'
+        line: 'GRUB_CMDLINE_LINUX="\1 biosdevname=0"'
+        backrefs: yes
+        validate: /bin/bash -n %s
+      when: grub_biosdevname_check.found == 0
     - name: Modify existing 'net.ifnames' parameter
       lineinfile:
         path: /etc/default/grub
