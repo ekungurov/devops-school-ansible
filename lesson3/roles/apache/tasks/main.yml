@@ -10,10 +10,12 @@
     state: started
     enabled: yes
 
-- name: create index.html file
+- name: copy index.html file
   copy:
-    content: <p>Welcome to my web server</p>
+    src: files/index.html
     dest: /var/www/html/index.html
+    owner: apache
+    group: apache 
 
 - name: firewalld should be started and enabled on boot
   service:
