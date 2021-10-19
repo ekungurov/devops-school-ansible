@@ -1,0 +1,27 @@
+---
+- name: httpd should be latest
+  yum:
+    name: httpd
+    state: latest
+
+- name: httpd should be started
+  service:
+    name: httpd
+    state: started
+
+- name: Create index.html file
+  copy:
+    content: <p>Welcome to my web server</p>
+    dest: /var/www/html/index.html
+
+- name: firewalld should be started
+  service:
+    name: firewalld
+    state: started
+
+- name: httpd should be permanently allowed via firewalld
+  firewalld:
+    service: http
+    permanent: yes
+    immediate: yes
+    state: enabled
