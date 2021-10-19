@@ -5,10 +5,9 @@
     state: latest
   when: ansible_facts['os_family'] == 'RedHat'
 
-- name: httpd should be started and enabled on boot
+- name: httpd should be enabled on boot
   service:
     name: httpd
-    state: started
     enabled: yes
   when: ansible_facts['os_family'] == 'RedHat'
 
@@ -18,6 +17,13 @@
     dest: /etc/httpd/conf/httpd.conf
   notify:
     - reload httpd
+  when: ansible_facts['os_family'] == 'RedHat'
+
+- name: httpd should be started
+  service:
+    name: httpd
+    state: started
+  when: ansible_facts['os_family'] == 'RedHat'
 
 - name: copy index.html file
   copy:
@@ -34,7 +40,7 @@
 
 - name: httpd should be permanently allowed via firewalld
   firewalld:
-    service: http
+    port: '{{ httpd_port }}/tcp'
     permanent: yes
     immediate: yes
     state: enabled
