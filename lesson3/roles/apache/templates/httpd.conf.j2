@@ -5,7 +5,7 @@
 # and httpd.service(8) on using and configuring the httpd service.
 #
 ServerRoot "/etc/httpd"
-Listen 80
+Listen {{ httpd_port }}
 Include conf.modules.d/*.conf
 
 User apache
