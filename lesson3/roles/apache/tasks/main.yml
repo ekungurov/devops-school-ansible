@@ -12,6 +12,13 @@
     enabled: yes
   when: ansible_facts['os_family'] == 'RedHat'
 
+- name: generate httpd.conf
+  template:
+    src: httpd.conf.j2
+    dest: /etc/httpd/conf/httpd.conf
+  notify:
+    - reload httpd
+
 - name: copy index.html file
   copy:
     src: files/index.html
