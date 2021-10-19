@@ -1,2 +1,3 @@
 ---
+# due to SELinux only particular ports can be used: 80, 81, 443, 488, 8008, 8009, 8443, 9000, and 8080 for some reason works too
 httpd_port: 80
