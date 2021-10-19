@@ -1,30 +1,29 @@
 ---
-- name: httpd should be latest
-  yum:
-    name: httpd
-    state: latest
+- name: tasks for 'RedHat' os family
+  block:
+    - name: httpd should be latest
+      yum:
+        name: httpd
+        state: latest
+    
+    - name: httpd should be enabled on boot
+      service:
+        name: httpd
+        enabled: yes
+    
+    - name: generate httpd.conf
+      template:
+        src: httpd.conf.j2
+        dest: /etc/httpd/conf/httpd.conf
+      notify:
+        - reload httpd
+    
+    - name: httpd should be started
+      service:
+        name: httpd
+        state: started
   when: ansible_facts['os_family'] == 'RedHat'
-
-- name: httpd should be enabled on boot
-  service:
-    name: httpd
-    enabled: yes
-  when: ansible_facts['os_family'] == 'RedHat'
-
-- name: generate httpd.conf
-  template:
-    src: httpd.conf.j2
-    dest: /etc/httpd/conf/httpd.conf
-  notify:
-    - reload httpd
-  when: ansible_facts['os_family'] == 'RedHat'
-
-- name: httpd should be started
-  service:
-    name: httpd
-    state: started
-  when: ansible_facts['os_family'] == 'RedHat'
-
+  
 - name: copy index.html file
   copy:
     src: files/index.html
