@@ -4,20 +4,22 @@
     name: httpd
     state: latest
 
-- name: httpd should be started
+- name: httpd should be started and enabled on boot
   service:
     name: httpd
     state: started
+    enabled: yes
 
-- name: Create index.html file
+- name: create index.html file
   copy:
     content: <p>Welcome to my web server</p>
     dest: /var/www/html/index.html
 
-- name: firewalld should be started
+- name: firewalld should be started and enabled on boot
   service:
     name: firewalld
     state: started
+    enabled: yes
 
 - name: httpd should be permanently allowed via firewalld
   firewalld:
