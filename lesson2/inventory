@@ -1,0 +1,11 @@
+all:
+  hosts:
+    node1.example.com:
+    node2.example.com:
+  children:
+    group1:
+      hosts:
+        node1.example.com:
+    group2:
+      hosts:
+        node2.example.com:

@@ -1,0 +1,15 @@
+---
+- name: Playbook of Lesson2
+  hosts: all
+  vars_files:
+    - vars/user_details.yml
+    - vars/secret.yml
+  tasks:
+    - name: create user
+      user:
+        name: "{{ item.username }}"
+        comment: "{{ item.email }}"
+        home: "{{ item.homepath }}"
+        password: "{{ default_pwhash }}"
+        update_password: on_create
+      with_items: "{{ user_details }}"

@@ -1,0 +1,12 @@
+user_details:
+  - username: alice
+    email: alice@example.org
+    homepath: /home/alice
+
+  - username: bob
+    email: bob@example.org
+    homepath: /home/bob
+
+  - username: carol
+    email: carol@example.org
+    homepath: /home/carol
